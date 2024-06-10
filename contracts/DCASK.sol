@@ -7,6 +7,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "./interface/IBlast.sol";
+import "./interface/IBlastPoints.sol";
 
 /// @custom:security-contact engineering@digicask.finance
 contract DCASK is
@@ -35,6 +36,8 @@ contract DCASK is
         // configure BLAST yield
         BLAST.configureClaimableGas();
         BLAST.configureGovernor(initialOwner);
+        IBlastPoints(0x2536FE9ab3F511540F2f9e2eC2A805005C3Dd800)
+            .configurePointsOperator(initialOwner);
     }
 
     function _authorizeUpgrade(
