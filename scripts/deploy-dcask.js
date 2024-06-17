@@ -1,12 +1,12 @@
 require("@nomicfoundation/hardhat-verify");
 require("@openzeppelin/hardhat-upgrades");
+require("dotenv").config();
 
 const { ethers, upgrades } = require("hardhat");
 
 async function main() {
     const DCASKV1 = await ethers.getContractFactory("DCASK");
-    const mintAddress = "0x9B3A5Dd074EFDFF896cFDBA677639D56eb375C69";
-    const token = await upgrades.deployProxy(DCASKV1, [mintAddress], {
+    const token = await upgrades.deployProxy(DCASKV1, [process.env.MINT_ADDRESS], {
         kind: "uups",
     });
 
