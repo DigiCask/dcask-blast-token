@@ -1,17 +1,14 @@
 const { ethers, upgrades } = require("hardhat");
+const { assert } = require("chai");
 
 describe("DCASK", function () {
     it("deploys", async function () {
         const DCASKV1 = await ethers.getContractFactory("DCASK");
         const signers = await ethers.getSigners();
         const signerAddr = signers[0];
-        const token = await upgrades.deployProxy(
-            DCASKV1,
-            [signerAddr.address],
-            {
-                kind: "uups",
-            }
-        );
+        const token = await upgrades.deployProxy(DCASKV1, [signerAddr.address], {
+            kind: "uups",
+        });
 
         await token.waitForDeployment();
 
@@ -23,10 +20,14 @@ describe("DCASK", function () {
 
         const DCASKV2 = await ethers.getContractFactory("DCASKV2");
         const tokenv2 = await upgrades.upgradeProxy(proxy, DCASKV2);
-        console.log(
-            "DCASKV2 implementation deployed to: ",
-            await tokenv2.getAddress()
-        );
+
+        console.log("DCASKV2 implementation deployed to: ", await tokenv2.getAddress());
+
+        const v = await tokenv2.version();
+
+        assert.equal(v, "v2");
+
+        console.log("DCASKV2 version: ", v);
     });
 });
 
