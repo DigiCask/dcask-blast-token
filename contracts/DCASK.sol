@@ -63,6 +63,4 @@ contract DCASK is
     function readYieldConfiguration() external view returns (uint8) {
         return BLAST.readYieldConfiguration(address(this));
     }
-
-    receive() external payable {}
 }
